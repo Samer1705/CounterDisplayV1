@@ -38,6 +38,10 @@ typedef enum{
 typedef enum{
 	PORT_INPUT, PORT_OUTPUT = 0xFF
 }GPIO_PortDirectionType;
+typedef struct{
+	uint8 portID;
+	uint8 pinID;
+}GPIO_PortPinType;
 
 /*******************************************************************************
  *                              Functions Prototypes                           *

@@ -6,9 +6,11 @@
  *******************************************************************************/
 #include "seven_segment.h"
 #include "../MCAL/gpio.h"
+#include "../Common/common_macros.h"
 #include <util/delay.h>
 
-uint8 segmentNumbers[] = { ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE };
+uint8 segmentCathodeNumbers[] = { ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE };
+uint8 segmentAnodeNumbers[] = { ~ZERO, ~ONE, ~TWO, ~THREE, ~FOUR, ~FIVE, ~SIX, ~SEVEN, ~EIGHT, ~NINE };
 
 static void splitNumber(uint32 number, uint8 digits, uint8 *digitsArray)
 {
@@ -22,29 +24,73 @@ static void splitNumber(uint32 number, uint8 digits, uint8 *digitsArray)
 
 void SEVEN_SEGMENT_Init(SevenSegment* segment)
 {
-	uint8 digitsIndex;
-	GPIO_setupPortDirection(segment->segmentPortID, PORT_OUTPUT);
+	uint8 digitsIndex, segmentIndex;
+	for(segmentIndex = 0; segmentIndex < 7; segmentIndex++)
+	{
+		GPIO_setupPinDirection(segment->segmentPortPinIDs[segmentIndex].portID, segment->segmentPortPinIDs[segmentIndex].pinID, PIN_OUTPUT);
+	}
 	for(digitsIndex = 0; digitsIndex < segment->digits; digitsIndex++)
 	{
-		GPIO_setupPinDirection(segment->enablePortID, segment->enablePinID[digitsIndex], PIN_OUTPUT);
-		GPIO_writePin(segment->enablePortID, segment->enablePinID[digitsIndex], LOGIC_HIGH);
+		GPIO_setupPinDirection(segment->enablePortPinIDs[digitsIndex].portID, segment->enablePortPinIDs[digitsIndex].pinID, PIN_OUTPUT);
 	}
-
 }
-void SEVEN_SEGMENT_Display(SevenSegment* segment, uint32 number)
+void SEVEN_SEGMENT_Display(SevenSegment* segment)
 {
-	uint8 digitsIndex;
+	uint8 digitsIndex, segmentIndex;
 	uint8 digitsArray[8];
-	splitNumber(number, segment->digits, digitsArray);
+	splitNumber(segment->value, segment->digits, digitsArray);
 	for(digitsIndex = 0; digitsIndex < segment->digits; digitsIndex++)
 	{
-		GPIO_writePin(segment->enablePortID, segment->enablePinID[digitsIndex], LOGIC_LOW);
-		GPIO_writePort(segment->segmentPortID, segmentNumbers[digitsArray[digitsIndex]]);
-		_delay_ms(1);
-		GPIO_writePin(segment->enablePortID, segment->enablePinID[digitsIndex], LOGIC_HIGH);
+		if(segment->segmentType == CATHODE)
+		{
+			GPIO_writePin(segment->enablePortPinIDs[digitsIndex].portID, segment->enablePortPinIDs[digitsIndex].pinID, LOGIC_LOW);
+			for(segmentIndex = 0; segmentIndex < 7; segmentIndex++)
+			{
+				GPIO_writePin(segment->segmentPortPinIDs[segmentIndex].portID, segment->segmentPortPinIDs[segmentIndex].pinID, GET_BIT(segmentCathodeNumbers[digitsArray[digitsIndex]], segmentIndex));
+			}
+			_delay_ms(5);
+			GPIO_writePin(segment->enablePortPinIDs[digitsIndex].portID, segment->enablePortPinIDs[digitsIndex].pinID, LOGIC_HIGH);
+		}
+		else
+		{
+			GPIO_writePin(segment->enablePortPinIDs[digitsIndex].portID, segment->enablePortPinIDs[digitsIndex].pinID, LOGIC_HIGH);
+			for(segmentIndex = 0; segmentIndex < 7; segmentIndex++)
+			{
+				GPIO_writePin(segment->segmentPortPinIDs[segmentIndex].portID, segment->segmentPortPinIDs[segmentIndex].pinID, GET_BIT(segmentAnodeNumbers[digitsArray[digitsIndex]], segmentIndex));
+			}
+			_delay_ms(5);
+			GPIO_writePin(segment->enablePortPinIDs[digitsIndex].portID, segment->enablePortPinIDs[digitsIndex].pinID, LOGIC_LOW);
+		}
 	}
+}
+void SEVEN_SEGMENT_SetValue(SevenSegment* segment, uint32 number)
+{
+	segment->value =  number;
+}
+uint32 SEVEN_SEGMENT_GetValue(SevenSegment* segment)
+{
+	return segment->value;
+}
+void SEVEN_SEGMENT_IncValue(SevenSegment* segment)
+{
+	segment->value++;
+}
+void SEVEN_SEGMENT_DecValue(SevenSegment* segment)
+{
+	segment->value--;
 }
 void SEVEN_SEGMENT_OFF(SevenSegment* segment)
 {
-	GPIO_writePort(segment->segmentPortID, 0);
+	uint8 digitsIndex;
+	for(digitsIndex = 0; digitsIndex < segment->digits; digitsIndex++)
+	{
+		if(segment->segmentType == CATHODE)
+		{
+			GPIO_writePin(segment->enablePortPinIDs[digitsIndex].portID, segment->enablePortPinIDs[digitsIndex].pinID, LOGIC_HIGH);
+		}
+		else
+		{
+			GPIO_writePin(segment->enablePortPinIDs[digitsIndex].portID, segment->enablePortPinIDs[digitsIndex].pinID, LOGIC_LOW);
+		}
+	}
 }

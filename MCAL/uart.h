@@ -49,13 +49,13 @@ void UART_init(const UART_ConfigType *config_Ptr);
  * Description :
  * Functional responsible for send byte to another UART device.
  */
-void UART_sendByte(const uint16 data);
+void UART_sendByte(const uint8 data);
 
 /*
  * Description :
  * Functional responsible for receive byte from another UART device.
  */
-uint16 UART_receiveByte(void);
+uint8 UART_receiveByte(void);
 
 /*
  * Description :

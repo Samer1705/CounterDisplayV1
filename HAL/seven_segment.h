@@ -9,6 +9,7 @@
 #define HAL_SEVEN_SEGMENT_H_
 
 #include "../Common/std_types.h"
+#include "../MCAL/gpio.h"
 
 /*******************************************************************************
  *                                Definitions                                  *
@@ -29,17 +30,22 @@ typedef enum{
 	CATHODE, ANODE
 }SegmentType;
 typedef struct{
-	uint8 segmentPortID;
+	GPIO_PortPinType* segmentPortPinIDs;
 	uint8 digits;
-	uint8 enablePortID;
-	uint8* enablePinID;
+	SegmentType segmentType;
+	GPIO_PortPinType* enablePortPinIDs;
+	uint32 value;
 }SevenSegment;
 
 /*******************************************************************************
  *                              Functions Prototypes                           *
  *******************************************************************************/
 void SEVEN_SEGMENT_Init(SevenSegment* segment);
-void SEVEN_SEGMENT_Display(SevenSegment* segment, uint32 number);
+void SEVEN_SEGMENT_Display(SevenSegment* segment);
+void SEVEN_SEGMENT_SetValue(SevenSegment* segment, uint32 number);
+uint32 SEVEN_SEGMENT_GetValue(SevenSegment* segment);
+void SEVEN_SEGMENT_IncValue(SevenSegment* segment);
+void SEVEN_SEGMENT_DecValue(SevenSegment* segment);
 void SEVEN_SEGMENT_OFF(SevenSegment* segment);
 
 #endif /* HAL_SEVEN_SEGMENT_H_ */

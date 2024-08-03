@@ -7,8 +7,8 @@
 
 #include "uart.h"
 
-#include <avr/io.h>
 #include <avr/interrupt.h>
+#include <avr/io.h>
 
 #include "../Common/common_macros.h" /* To use the macros like SET_BIT */
 
@@ -99,7 +99,7 @@ void UART_init(const UART_ConfigType *config_Ptr)
  * Description :
  * Functional responsible for send byte to another UART device.
  */
-void UART_sendByte(const uint16 data)
+void UART_sendByte(const uint8 data)
 {
 	/*
 	 * UDRE flag is set when the Tx buffer (UDR) is empty and ready for
@@ -124,7 +124,7 @@ void UART_sendByte(const uint16 data)
  * Description :
  * Functional responsible for receive byte from another UART device.
  */
-uint16 UART_receiveByte(void)
+uint8 UART_receiveByte(void)
 {
 	/* RXC flag is set when the UART receive data so wait until this flag is set to one */
 	while(BIT_IS_CLEAR(UCSR0A,RXC0));
