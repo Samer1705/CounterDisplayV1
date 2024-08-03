@@ -148,7 +148,7 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000     0x1e20
+.text           0x00000000     0x1e2e
  *(.vectors)
  .vectors       0x00000000       0x68 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm328p.o
                 0x00000000                __vectors
@@ -227,8 +227,6 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
                 0x000000a2                __vector_14
                 0x000000a2                __vector_10
                 0x000000a2                __vector_16
-                0x000000a2                __vector_18
-                0x000000a2                __vector_20
  .text          0x000000a6        0x0 ./MCAL/gpio.o
  .text          0x000000a6        0x0 ./MCAL/uart.o
  .text          0x000000a6        0x0 ./HAL/seven_segment.o
@@ -284,12 +282,12 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
  .text.__vector_19
                 0x00001072       0x66 ./MCAL/uart.o
                 0x00001072                __vector_19
- .text.USART_TXC_vect
+ .text.__vector_20
                 0x000010d8       0x66 ./MCAL/uart.o
-                0x000010d8                USART_TXC_vect
- .text.USART_RXC_vect
+                0x000010d8                __vector_20
+ .text.__vector_18
                 0x0000113e       0x66 ./MCAL/uart.o
-                0x0000113e                USART_RXC_vect
+                0x0000113e                __vector_18
  .text.UART_init
                 0x000011a4       0xfa ./MCAL/uart.o
                 0x000011a4                UART_init
@@ -346,25 +344,25 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
  .text.SEVEN_SEGMENT_OFF
                 0x00001c2a       0xbc ./HAL/seven_segment.o
                 0x00001c2a                SEVEN_SEGMENT_OFF
- .text.main     0x00001ce6       0x56 ./main.o
+ .text.main     0x00001ce6       0x4e ./main.o
                 0x00001ce6                main
  .text.RXHandler
-                0x00001d3c       0x2e ./main.o
-                0x00001d3c                RXHandler
- .text.libgcc   0x00001d6a       0x44 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodsi4.o)
-                0x00001d6a                __udivmodsi4
- .text.libgcc   0x00001dae        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
- .text.libgcc   0x00001dae        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_copy_data.o)
- .text.libgcc   0x00001dae        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_clear_bss.o)
- .text.libgcc   0x00001dae       0x38 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_prologue.o)
-                0x00001dae                __prologue_saves__
- .text.libgcc   0x00001de6       0x36 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_epilogue.o)
-                0x00001de6                __epilogue_restores__
-                0x00001e1c                . = ALIGN (0x2)
+                0x00001d34       0x44 ./main.o
+                0x00001d34                RXHandler
+ .text.libgcc   0x00001d78       0x44 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodsi4.o)
+                0x00001d78                __udivmodsi4
+ .text.libgcc   0x00001dbc        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+ .text.libgcc   0x00001dbc        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_copy_data.o)
+ .text.libgcc   0x00001dbc        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_clear_bss.o)
+ .text.libgcc   0x00001dbc       0x38 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_prologue.o)
+                0x00001dbc                __prologue_saves__
+ .text.libgcc   0x00001df4       0x36 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_epilogue.o)
+                0x00001df4                __epilogue_restores__
+                0x00001e2a                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00001e1c        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
-                0x00001e1c                exit
-                0x00001e1c                _exit
+ .fini9         0x00001e2a        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+                0x00001e2a                exit
+                0x00001e2a                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -383,11 +381,11 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00001e1c        0x4 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+ .fini0         0x00001e2a        0x4 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x00001e20                _etext = .
+                0x00001e2e                _etext = .
 
-.data           0x00800100       0x42 load address 0x00001e20
+.data           0x00800100       0x42 load address 0x00001e2e
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00800100        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm328p.o
@@ -473,8 +471,8 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
                 0x00800146        0x2 ./MCAL/uart.o
  *(COMMON)
                 0x00800148                PROVIDE (__bss_end, .)
-                0x00001e20                __data_load_start = LOADADDR (.data)
-                0x00001e62                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00001e2e                __data_load_start = LOADADDR (.data)
+                0x00001e70                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x00800148        0x0
                 0x00800148                PROVIDE (__noinit_start, .)
@@ -499,19 +497,19 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
 .signature
  *(.signature*)
 
-.stab           0x00000000     0x1920
+.stab           0x00000000     0x192c
  *(.stab)
  .stab          0x00000000      0x6fc ./MCAL/gpio.o
  .stab          0x000006fc      0x798 ./MCAL/uart.o
                                 0x954 (size before relaxing)
  .stab          0x00000e94      0x7a4 ./HAL/seven_segment.o
                                 0x930 (size before relaxing)
- .stab          0x00001638      0x2e8 ./main.o
-                                0x5ac (size before relaxing)
+ .stab          0x00001638      0x2f4 ./main.o
+                                0x5b8 (size before relaxing)
 
-.stabstr        0x00000000     0x14e2
+.stabstr        0x00000000     0x14dc
  *(.stabstr)
- .stabstr       0x00000000     0x14e2 ./MCAL/gpio.o
+ .stabstr       0x00000000     0x14dc ./MCAL/gpio.o
 
 .stab.excl
  *(.stab.excl)

@@ -55,12 +55,13 @@ int main(){
 	for(;;)
 	{
 		SEVEN_SEGMENT_Display(&segment);
-		SEVEN_SEGMENT_IncValue(&segment);
 	}
 }
 
 void RXHandler()
 {
 	uint8 data = UART_receiveByte();
+	UART_sendByte(data);
 	SEVEN_SEGMENT_SetValue(&segment, data);
+	UART_sendByte(SEVEN_SEGMENT_GetValue(&segment));
 }

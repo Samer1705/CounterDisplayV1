@@ -33,7 +33,7 @@ ISR(USART_UDRE_vect)
 		}
 }
 
-ISR(USART_TXC_vect)
+ISR(USART_TX_vect)
 {
 	if(g_callBackPtrTX != NULL_PTR)
 		{
@@ -42,7 +42,7 @@ ISR(USART_TXC_vect)
 		}
 }
 
-ISR(USART_RXC_vect)
+ISR(USART_RX_vect)
 {
 	if(g_callBackPtrRX != NULL_PTR)
 		{
